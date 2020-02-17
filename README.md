@@ -86,4 +86,4 @@ Sometime the user-service start to fast for keycloak, to try redo `make start` w
 
 You can contact me on maliszewskid3@gmail.com for more information
 
-Medium Post : [https://medium.com/@maliszewskid3/implement-multi-tenancy-oidc-and-hibernate-on-quarkus-4f2e0214ed2d](Click here)
+Medium Post : [Click here](https://medium.com/@maliszewskid3/implement-multi-tenancy-oidc-and-hibernate-on-quarkus-4f2e0214ed2d)
