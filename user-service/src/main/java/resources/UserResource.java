@@ -8,6 +8,7 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import services.UserService;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -43,6 +44,7 @@ public class UserResource {
 
     @GET
     @Path("/me")
+    @Transactional
     public Response findByUsernameOrCreate(@PathParam Long id) {
         User user = this.userService.findByUsernameOrCreate(identity);
         return Response.ok(user).build();
