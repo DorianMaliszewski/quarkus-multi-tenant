@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: admin
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    depends_on:
+      - postgres
+    ports:
+    - 8085:8080
+
+
+  user-service:
+    build:
+      dockerfile: ./src/main/docker/Dockerfile.jvm
+      context: ./user-service
+    env_file:
+      - ./config/user.env
+    ports:
+    - 8080:8080
+
+  user-db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: users
+    ports:
+    - 3306:3306
+    volumes:
+      - ./db/user-db:/var/lib/mysql
+
+  postgres:
+    image: postgres
+    volumes:
+      - ./db/keycloack-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: admin
+    ports:
+    - 5432:5432
